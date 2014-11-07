@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
 {% block main %}
-  <p>Спасибо за регистрацию</p>
-
-  <p><a href="/login/">Авторизуйтесь</a>, когда будете готовы</p>
-
   <form class="form-signin span8" id="user_form" method="post" action="{% url 'registration' %}">
       {% csrf_token %}
 
