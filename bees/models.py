@@ -11,6 +11,7 @@ class DUser(models.Model):
                                 editable=False)
     last_visited = models.DateTimeField(verbose_name=_('last_visited'), blank=True,
                                 editable=False)
+    updated = models.DateTimeField(verbose_name=_('updated'), blank=True)
     bees = models.TextField(verbose_name=_('bees'), blank=True)
 
     def __str__(self):
@@ -29,6 +30,8 @@ class History(models.Model):
                      )
     d_id = models.IntegerField()
     d_name = models.CharField(verbose_name=_('diary_user_name'), max_length=255)
+    old_name = models.CharField(verbose_name=_('diary_old_user_name'),
+                                max_length=255, blank=True)
     action = models.CharField(choices=action_choices, max_length=25)
     when = models.DateTimeField(verbose_name=_('when'), auto_now_add=True,
                                 editable=False)
