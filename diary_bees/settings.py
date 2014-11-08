@@ -77,6 +77,14 @@ USE_L10N = False
 USE_TZ = True
 
 
+# GRABBER SETTING
+DIARY_URL = 'http://www.diary.ru'
+PROFILE_URL = '/member/?{}&fullreaderslist' \
+              '&fullfavoriteslist'
+USERNAME = ''
+PASS = ''
+PASS_HASH = ''
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
