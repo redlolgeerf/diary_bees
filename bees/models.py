@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import json
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -46,3 +47,43 @@ class History(models.Model):
         verbose_name_plural = _('bees')
         ordering = ['-when']
         order_with_respect_to = 'duser'
+
+class Bees(object):
+    '''
+    Helper class to create bees_dict from either json or tuple.
+    '''
+
+    def __init__(self, smth):
+        self._bees_dict = {}
+        self.load(smth)
+
+    def load(self, smth):
+        if isinstance(smth, str):
+            self._load_from_json(smth)
+        if isinstance(smth, list):
+            self._load_from_list(smth)
+
+    def _load_from_json(self, smth):
+        self._bees_dict = json.loads(smth)
+
+    def _load_from_list(self, smth):
+        self._bees_dict = {str(k): v for (k, v) in smth}
+
+    def to_json(self):
+        return json.dumps(self._bees_dict)
+
+    def __eq__(self, other):
+        return self._bees_dict == other._bees_dict
+
+    def diff(self, other):
+        diff = []
+        for k in self._bees_dict:
+            if k not in other._bees_dict:
+                diff.append((k, 'l', self._bees_dict[k]))
+            else:
+                if self._bees_dict[k] != other._bees_dict[k]:
+                    diff.append((k, 'r', self._bees_dict[k], other._bees_dict[k]))
+        for k in other._bees_dict:
+            if k not in self._bees_dict:
+                diff.append((k, 'j', other._bees_dict[k]))
+        return diff
