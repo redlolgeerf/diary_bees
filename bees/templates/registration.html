@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block main %}
-  <form class="form-signin span8" id="user_form" method="post" action="{% url 'registration' %}">
+  <form class="form-signup span8" id="user_form" method="post" action="{% url 'registration' %}">
       {% csrf_token %}
 
       <h2 >Регистрация</h2>

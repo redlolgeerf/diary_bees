@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from bees.forms import RegisterForm, LoginForm
 
 def index(request):
-    pass
+    return render(request, 'base.html')
 
 class RegistrationView(FormView):
     template_name = 'registration.html'
@@ -13,7 +13,8 @@ class RegistrationView(FormView):
     success_url = '/thanks/'
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.username = user.email
         user.set_password(user.password)
         user.save()
         return super(RegistrationView, self).form_valid(form)
@@ -24,11 +25,14 @@ class LoginView(FormView):
     success_url = '/thanks/'
 
     def form_valid(self, form):
-        user = form.save()
-        user = authenticate(username=user.username, password=user.password)
-        login(self.request, user)
-
-        return super(LoginView, self).form_valid(form)
+        user = form.save(commit=False)
+        user = authenticate(username=user.email, password=user.password)
+        if user is not None:
+            login(self.request, user)
+            return super(LoginView, self).form_valid(form)
+        else:
+            form.add_error('__all__', "User not found.")
+            return super(LoginView, self).form_invalid(form)
 
 def user_logout(request):
     logout(request)
