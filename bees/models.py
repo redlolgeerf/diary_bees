@@ -10,9 +10,10 @@ class DUser(models.Model):
     joined = models.DateTimeField(verbose_name=_('joined'), auto_now_add=True,
                                 editable=False)
     last_visited = models.DateTimeField(verbose_name=_('last_visited'), blank=True,
-                                editable=False)
+                                editable=False, null=True)
     updated = models.DateTimeField(verbose_name=_('updated'), blank=True, null=True)
     bees = models.TextField(verbose_name=_('bees'), blank=True)
+    confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.d_login
