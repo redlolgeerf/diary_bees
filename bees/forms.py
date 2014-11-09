@@ -2,6 +2,7 @@
 
 from django import forms
 from django.contrib.auth.models import User
+from bees.models import DUser
 
 class RegisterForm(forms.ModelForm):
     email = forms.CharField(help_text="Email")
@@ -42,3 +43,8 @@ class LoginForm(forms.ModelForm):
         model = User
         fields = ['email', 'password']
 
+class DUserForm(forms.ModelForm):
+
+    class Meta:
+        model = DUser
+        fields = ['d_login']

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block main %}
+  <form method="post" action="{% url 'beekeeper-settings' 2 %}">
+      {% csrf_token %}
+
+      <h2>Настройки</h2>
+          {% for field in form.visible_fields %}
+          <div class="form-group {% if field.errors %}has-error{% endif %}">
+          {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+          {% endfor %}
+          
+          {{ field }}
+          </div>
+          {% endfor %}
+          <button class="btn btn-lg btn-primary" type="submit">Сохранить</button>
+        </div>
+      </div>
+
+  </form>
+  
+{% endblock main %}

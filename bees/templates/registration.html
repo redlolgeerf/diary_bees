@@ -4,7 +4,7 @@
   <form class="form-signup span8" id="user_form" method="post" action="{% url 'registration' %}">
       {% csrf_token %}
 
-      <h2 >Регистрация</h2>
+      <h2>Регистрация</h2>
           {% for field in form.visible_fields %}
           <div class="form-group {% if field.errors %}has-error{% endif %}">
           {% for error in field.errors %}

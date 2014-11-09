@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+<li>
+  {% for history in hists %}
+  <ul>
+    {{ history.d_name }} {{ history.get_action_display }} {{ history.old_name }} on {{ history.when }}
+  </ul>
+  {% endfor %}
+</li>
+{% endblock main %}
