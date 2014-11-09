@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -22,6 +23,19 @@ class DUser(models.Model):
     class Meta:
         verbose_name = _('diary user')
         verbose_name_plural = _('diary users')
+
+    def update_bees(self, new_bees):
+        old_bees = Bees(self.bees)
+        new_bees = Bees(new_bees)
+        if old_bees != new_bees:
+            diff = old_bees.diff(new_bees)
+            for d in diff:
+                h = History.create_from_diff(d)
+                h.duser = self
+                h.save()
+            self.bees = new_bees.to_json()
+        self.updated = datetime.datetime.now()
+
 
 class History(models.Model):
 
@@ -47,6 +61,19 @@ class History(models.Model):
         verbose_name_plural = _('bees')
         ordering = ['-when']
         order_with_respect_to = 'duser'
+
+    @classmethod
+    def create_from_diff(cls, diff_tuple):
+        '''
+        Recieve tuple and return a History object.
+        '''
+        h = cls()
+        h.d_id = int(diff_tuple[0])
+        h.action = diff_tuple[1]
+        h.d_name = diff_tuple[2]
+        if len(diff_tuple) > 3:
+            h.old_name = diff_tuple[3]
+        return h
 
 class Bees(object):
     '''

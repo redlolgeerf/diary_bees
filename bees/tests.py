@@ -1,6 +1,24 @@
 import json
 from django.test import TestCase
-from bees.models import Bees
+from bees.models import DUser, History, Bees
+
+class TestDUser(TestCase):
+    def test_update(self):
+        b = json.dumps({12345: 'asd', 134256: 'vvv'})
+        n = [(12345, 'asd'), (134256, 'vvv'), (1342, 'abc')]
+        d = DUser()
+        d.save()
+        d.bees = b
+        d.update_bees(n)
+        self.assertEqual(d.history_set.count(), 1)
+
+class TestHistory(TestCase):
+    def test_from_diff(self):
+        diff = ('141', 'j', 'ccc')
+        h = History.create_from_diff(diff)
+        self.assertEqual(h.d_id, 141)
+        self.assertEqual(h.action, 'j')
+        self.assertEqual(h.d_name, 'ccc')
 
 class TestBees(TestCase):
     def setUp(self):
