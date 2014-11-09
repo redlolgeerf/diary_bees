@@ -1,0 +1,6 @@
+Django==1.7.1
+beautifulsoup4==4.3.2
+django-debug-toolbar==1.2.2
+ipython==2.3.0
+requests==2.4.3
+sqlparse==0.1.13
