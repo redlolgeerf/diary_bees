@@ -54,7 +54,7 @@ class History(models.Model):
     duser = models.ForeignKey('Duser')
 
     def __str__(self):
-        return '{} {}'.format(self.d_name, self.action, self.when)
+        return '{} {}'.format(self.d_name, self.get_action_display, self.when)
 
     class Meta:
         verbose_name = _('bee')
@@ -74,6 +74,10 @@ class History(models.Model):
         if len(diff_tuple) > 3:
             h.old_name = diff_tuple[3]
         return h
+
+    @property
+    def get_action_display(self):
+        return dict(self.action_choices)[self.action]
 
 class Bees(object):
     '''
