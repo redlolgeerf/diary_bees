@@ -1,44 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import FormView, UpdateView
 from django.views.generic import ListView, DetailView
-from django.contrib.auth import authenticate, login, logout
 
 from bees.models import DUser, History
-from bees.forms import RegisterForm, LoginForm, DUserForm
+from bees.forms import DUserForm
 
 def index(request):
     return render(request, 'base.html')
-
-class RegistrationView(FormView):
-    template_name = 'registration.html'
-    form_class = RegisterForm
-    success_url = '/thanks/'
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.username = user.email
-        user.set_password(user.password)
-        user.save()
-        return super(RegistrationView, self).form_valid(form)
-
-class LoginView(FormView):
-    template_name = 'login.html'
-    form_class = LoginForm
-    success_url = '/thanks/'
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user = authenticate(username=user.email, password=user.password)
-        if user is not None:
-            login(self.request, user)
-            return super(LoginView, self).form_valid(form)
-        else:
-            form.add_error('__all__', "User not found.")
-            return super(LoginView, self).form_invalid(form)
-
-def user_logout(request):
-    logout(request)
-    return redirect('index')
 
 class HiveView(DetailView):
 
