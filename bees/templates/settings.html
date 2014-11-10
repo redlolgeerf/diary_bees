@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block main %}
-  <form method="post" action="{% url 'beekeeper-settings' 2 %}">
+  <form method="post" action="{% url 'beekeeper-settings' %}">
       {% csrf_token %}
 
       <h2>Настройки</h2>

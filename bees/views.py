@@ -1,3 +1,4 @@
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import FormView, UpdateView
 from django.views.generic import ListView, DetailView
@@ -13,8 +14,19 @@ class HiveView(DetailView):
     template_name = 'history.html'
     model = DUser
 
+    def dispatch(self, request, *args, **kwargs):
+        if not kwargs:
+            user = self.request.user
+            if user.is_authenticated:
+                d = DUser.objects.get(user=user.id)
+                if d:
+                    return redirect(d)
+                return redirect('beekeeper-settings')
+            return HttpResponseBadRequest
+        return super(HiveView, self).dispatch(request, *args, **kwargs)
+
     def get_object(self):
-        self.duser = get_object_or_404(DUser, pk=self.kwargs['pk'])
+        self.duser = get_object_or_404(DUser, d_id=self.kwargs['d_id'])
         return self.duser
 
     def get_queryset(self):
@@ -28,9 +40,13 @@ class HiveView(DetailView):
 
 class SettingsView(UpdateView):
     template_name = 'settings.html'
-    success_url = '/beekeeper/2/'
+    success_url = '/beekeeper/'
     model = DUser
     form_class = DUserForm
+
+    def get_object(self):
+        self.duser = get_object_or_404(DUser, user=self.request.user.id)
+        return self.duser
 
     def form_valid(self, form):
         d_user = form.save(commit=False)

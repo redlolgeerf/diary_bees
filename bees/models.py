@@ -5,6 +5,7 @@ import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class DUser(models.Model):
 
@@ -25,6 +26,9 @@ class DUser(models.Model):
     class Meta:
         verbose_name = _('diary user')
         verbose_name_plural = _('diary users')
+
+    def get_absolute_url(self):
+        return reverse('hive-detail', kwargs={'d_id': self.d_id})
 
     def update_bees(self, new_bees):
         old_bees = Bees(self.bees)
