@@ -47,4 +47,4 @@ class DUserForm(forms.ModelForm):
 
     class Meta:
         model = DUser
-        fields = ['d_login']
+        fields = ['d_id']

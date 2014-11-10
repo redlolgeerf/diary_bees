@@ -7,18 +7,18 @@ from django.utils.translation import ugettext as _
 
 class DUser(models.Model):
 
-    d_login = models.CharField(verbose_name=_('diary_user_name'), max_length=255,
-                                blank=True, unique=True)
+    d_id = models.CharField(verbose_name=_('diary_user_id'), max_length=255,
+                                blank=True, unique=True, default="")
     joined = models.DateTimeField(verbose_name=_('joined'), auto_now_add=True,
                                 editable=False)
     last_visited = models.DateTimeField(verbose_name=_('last_visited'), blank=True,
                                 editable=False, null=True)
     updated = models.DateTimeField(verbose_name=_('updated'), blank=True, null=True)
-    bees = models.TextField(verbose_name=_('bees'), blank=True)
+    bees = models.TextField(verbose_name=_('bees'), blank=True, default='')
     confirmed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.d_login
+        return self.d_id
 
     class Meta:
         verbose_name = _('diary user')
@@ -91,6 +91,8 @@ class Bees(object):
             self._load_from_list(smth)
 
     def _load_from_json(self, smth):
+        if not smth:
+            smth = "{}"
         self._bees_dict = json.loads(smth)
 
     def _load_from_list(self, smth):

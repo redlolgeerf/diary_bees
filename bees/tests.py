@@ -35,10 +35,20 @@ class TestBees(TestCase):
         self.assertJSONEqual(bees.to_json(), self.js)
         self.assertDictEqual(bees._bees_dict, self.b)
 
+    def test_from_json_blank(self):
+        bees = Bees('')
+        self.assertJSONEqual(bees.to_json(), "{}")
+        self.assertDictEqual(bees._bees_dict, {})
+
     def test_from_list(self):
         bees = Bees(self.li)
         self.assertDictEqual(bees._bees_dict, self.b)
         self.assertJSONEqual(bees.to_json(), self.js)
+
+    def test_from_list_blank(self):
+        bees = Bees([])
+        self.assertDictEqual(bees._bees_dict, {})
+        self.assertJSONEqual(bees.to_json(), "{}")
 
     def test_comparision(self):
         bees = Bees(self.js)
