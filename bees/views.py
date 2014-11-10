@@ -63,3 +63,9 @@ class SettingsView(UpdateView):
     success_url = '/beekeeper/2/'
     model = DUser
     form_class = DUserForm
+
+    def form_valid(self, form):
+        d_user = form.save(commit=False)
+        d_user.user = self.request.user
+        d_user.save()
+        return super(SettingsView, self).form_valid(form)

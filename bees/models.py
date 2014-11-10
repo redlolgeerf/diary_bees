@@ -4,6 +4,7 @@ import json
 import datetime
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.contrib.auth.models import User
 
 class DUser(models.Model):
 
@@ -16,6 +17,7 @@ class DUser(models.Model):
     updated = models.DateTimeField(verbose_name=_('updated'), blank=True, null=True)
     bees = models.TextField(verbose_name=_('bees'), blank=True, default='')
     confirmed = models.BooleanField(default=False)
+    user = models.ForeignKey(User)
 
     def __str__(self):
         return self.d_id
