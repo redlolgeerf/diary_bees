@@ -47,14 +47,14 @@ class History(models.Model):
     d_id = models.IntegerField()
     d_name = models.CharField(verbose_name=_('diary_user_name'), max_length=255)
     old_name = models.CharField(verbose_name=_('diary_old_user_name'),
-                                max_length=255, blank=True, null=True)
+                                max_length=255, blank=True, default="")
     action = models.CharField(choices=action_choices, max_length=25)
     when = models.DateTimeField(verbose_name=_('when'), auto_now_add=True,
                                 editable=False)
     duser = models.ForeignKey('Duser')
 
     def __str__(self):
-        return '{} {}'.format(self.d_name, self.action)
+        return '{} {}'.format(self.d_name, self.action, self.when)
 
     class Meta:
         verbose_name = _('bee')

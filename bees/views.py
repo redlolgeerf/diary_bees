@@ -43,10 +43,14 @@ def user_logout(request):
 class HiveView(DetailView):
 
     template_name = 'history.html'
+    model = DUser
+
+    def get_object(self):
+        self.duser = get_object_or_404(DUser, pk=self.kwargs['pk'])
+        return self.duser
 
     def get_queryset(self):
-        self.duser = get_object_or_404(DUser, pk=self.kwargs['pk'])
-        return History.objects.filter(duser=self.duser)
+        return  History.objects.filter(duser=self.duser)
 
     def get_context_data(self, **kwargs):
         context = super(HiveView, self).get_context_data(**kwargs)
