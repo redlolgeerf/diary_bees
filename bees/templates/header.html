@@ -1,17 +1,28 @@
 
-{% if user.is_authenticated %}
-    <p>Привет!</p>
-    <a href='/logout/' class="btn btn-warning">Выйти</a>
-{% else %}
-  <form id="login_form" method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <div class="form-group">
-      <input type="text" placeholder="Логин" class="form-control" name="username">
+<div class="row">
+  <div class="col-md-6">
+    <img class="img-responsive" src="http://placepuppy.it/600/50" alt="bee_logo"/>
+  </div>
+  <div class="col-md-6">
+    {% if user.is_authenticated %}
+    <div class="row down">
+      <div class="col-md-5">
+        Добро пожаловать, {{ user.email }}
+      </div>
+      <div class="col-md-3">
+        <a href='{% url 'hive-detail' %}' class="btn-right"        > Ваш улей</a  >
+      </div>
+      <div class="col-md-2">
+        <a href='{% url 'beekeeper-settings' %}' class="btn-right" > Настройки</a >
+      </div>
+      <div class="col-md-2">
+        <a href='{% url 'logout' %}' class="btn-right"             > Выйти</a     >
+      </div>
     </div>
-    <div class="form-group">
-      <input type="password" placeholder="Пароль" class="form-control" name="password">
-    </div>
-    <button type="submit" class="btn btn-success">Войти</button>
-    <a href='{% url 'registration' %}' class="btn btn-success">Зарегистрироваться</a>
-  </form>
-{% endif %}
+    
+    {% else %}
+      <a href='{% url 'registration' %}' class="btn btn-success btn-right">Зарегистрироваться</a>
+      <a href='{% url 'login' %}' class="btn btn-success btn-right">Войти</a>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,12 @@
+* {
+    outline: 1px solid red !important;
+}
+
+.btn-right {
+    float: right;
+    margin-right: 20px;
+}
+
+/*div {*/
+  /*color: red;*/
+/*}*/
