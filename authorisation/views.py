@@ -11,8 +11,11 @@ class RegistrationView(FormView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.username = user.email
+        password = user.password
         user.set_password(user.password)
         user.save()
+        user = authenticate(username=user.username, password=password)
+        login(self.request, user)
         return super(RegistrationView, self).form_valid(form)
 
 class LoginView(FormView):
