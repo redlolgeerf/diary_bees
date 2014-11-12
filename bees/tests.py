@@ -23,6 +23,8 @@ class TestHistory(TestCase):
         self.assertEqual(h.d_id, 141)
         self.assertEqual(h.action, 'j')
         self.assertEqual(h.d_name, 'ccc')
+        self.assertEqual(h.action_display, 'joined')
+        self.assertEqual(str(h), 'ccc joined None')
 
 class TestBees(TestCase):
     def setUp(self):

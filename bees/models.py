@@ -64,7 +64,7 @@ class History(models.Model):
     duser = models.ForeignKey('Duser')
 
     def __str__(self):
-        return '{} {}'.format(self.d_name, self.get_action_display, self.when)
+        return '{} {} {}'.format(self.d_name, self.action_display, self.when)
 
     class Meta:
         verbose_name = _('bee')
@@ -86,7 +86,7 @@ class History(models.Model):
         return h
 
     @property
-    def get_action_display(self):
+    def action_display(self):
         return dict(self.action_choices)[self.action]
 
 class Bees(object):
