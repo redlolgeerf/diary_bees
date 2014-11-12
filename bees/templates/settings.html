@@ -1,23 +1,34 @@
 {% extends "base.html" %}
 
 {% block main %}
-  <form method="post" action="{% url 'beekeeper-settings' %}">
-      {% csrf_token %}
+    <form method="post" action="{% url 'beekeeper-settings' %}">
+        {% csrf_token %}
 
-      <h2>Настройки</h2>
-          {% for field in form.visible_fields %}
-          <div class="form-group {% if field.errors %}has-error{% endif %}">
-          {% for error in field.errors %}
-          <span class="help-block">{{ error }}</span>
-          {% endfor %}
-          
-          {{ field }}
-          </div>
-          {% endfor %}
-          <button class="btn btn-lg btn-primary" type="submit">Сохранить</button>
+        <h2>Настройки</h2>
+        {% if new_user %}
+        <div>
+            Для начала, Вам нужно указать Ваш id на diary.ru   
         </div>
-      </div>
+        {% endif %}
 
-  </form>
+        {% for field in form.visible_fields %}
+        <div class="form-group {% if field.errors %}has-error{% endif %}">
+            {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button class="btn btn-lg btn-primary" type="submit">Сохранить</button>
+
+    </form>
+
+    {% if not new_user and not confirmed %}
+    <div>
+        Теперь, чтобы доказать, что это действительно Ваш профиль на diary.ru, 
+        добавьте этот <a href="http://www.diary.ru/member/?3286587">дневник</a> в избранное.
+    </div>
+    {% endif %}
   
 {% endblock main %}

@@ -42,6 +42,10 @@ class DUser(models.Model):
             self.bees = new_bees.to_json()
         self.updated = datetime.datetime.now()
 
+    @property
+    def bees_dict(self):
+        return Bees(self.bees).to_dict()
+
 
 class History(models.Model):
 
@@ -110,6 +114,9 @@ class Bees(object):
 
     def to_json(self):
         return json.dumps(self._bees_dict)
+
+    def to_dict(self):
+        return self._bees_dict.copy()
 
     def __eq__(self, other):
         return self._bees_dict == other._bees_dict

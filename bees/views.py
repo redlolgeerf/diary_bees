@@ -19,9 +19,9 @@ class HiveView(DetailView):
         if not kwargs:
             user = self.request.user
             if user.is_authenticated:
-                d = DUser.objects.get(user=user.id)
+                d = DUser.objects.filter(user=user.id)
                 if d:
-                    return redirect(d)
+                    return redirect(d[0])
                 return redirect('beekeeper-settings')
             return HttpResponseBadRequest
         return super(HiveView, self).dispatch(request, *args, **kwargs)
@@ -37,6 +37,8 @@ class HiveView(DetailView):
         context = super(HiveView, self).get_context_data(**kwargs)
         context['duser'] = self.duser
         context['hists'] = self.get_queryset()
+        context['bees'] = self.duser.bees_dict
+        context['updated'] = self.duser.updated
         return context
 
 class SettingsView(View):
@@ -51,9 +53,15 @@ class SettingsView(View):
         return self.duser
 
     def get_context_data(self, **kwargs):
-        return dict(**kwargs)
+        context = dict(**kwargs)
+        if not self.duser:
+            context['new_user'] = True
+        else:
+            context['confirmed'] = self.duser.confirmed
+        return context
 
     def form_invalid(self, form):
+        d_user = self.get_object()
         context = self.get_context_data(form=form)
         return self.render_to_response(context=context)
 
@@ -64,8 +72,13 @@ class SettingsView(View):
                 context=context)
 
     def form_valid(self, form):
-        d_user = form.save(commit=False)
-        d_user.user = self.request.user
+        d_user = self.get_object()
+        new_d_user = form.save(commit=False)
+        new_d_user.user = self.request.user
+        if d_user:
+            d_user.d_id = new_d_user.d_id
+        else:
+            d_user = new_d_user
         d_user.save()
         return redirect('beekeeper-settings')
 

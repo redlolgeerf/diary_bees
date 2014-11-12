@@ -1,11 +1,39 @@
 {% extends "base.html" %}
 
 {% block main %}
+
+{% if hists %}
 <li>
   {% for history in hists %}
   <ul>
-    {{ history.d_name }} {{ history.get_action_display }} {{ history.old_name }} on {{ history.when }}
+    <a href="http://www.diary.ru/member/?{{ history.d_id }}">{{ history.d_name }}</a> {{ history.action_display }} {{ history.old_name }} on {{ history.when }}
   </ul>
   {% endfor %}
 </li>
+{% endif %}
+
+<div>
+    {% if bees %}
+        <div>
+            Ваши постоянные читатели на сегодняшний день:
+        </div>
+        <div>
+            {% for k, v in bees.items %}
+            <a href="http://www.diary.ru/member/?{{ k }}">{{ v }}</a> 
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if updated %}
+            У Вас пока нет постоянных читателей.
+        {% else %}
+            Пожалуйста, подождите. Идёт подсчёт пчёл.    
+        {% endif %}
+    {% endif %}
+</div>
+
+<div>
+    {% if updated %}
+    Последний раз пчёлы были пересчитаны {{ updated }}.
+    {% endif %}
+</div>
 {% endblock main %}
