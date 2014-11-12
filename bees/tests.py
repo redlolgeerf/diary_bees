@@ -1,12 +1,16 @@
 import json
 from django.test import TestCase
+from django.contrib.auth.models import User
 from bees.models import DUser, History, Bees
 
 class TestDUser(TestCase):
     def test_update(self):
+        dumb_user = User()
+        dumb_user.save()
         b = json.dumps({12345: 'asd', 134256: 'vvv'})
         n = [(12345, 'asd'), (134256, 'vvv'), (1342, 'abc')]
         d = DUser()
+        d.user = dumb_user
         d.save()
         d.bees = b
         d.update_bees(n)
