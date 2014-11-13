@@ -27,6 +27,8 @@ TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = []
 
 
+LOGIN_URL = '/login/'
+
 # Application definition
 
 INSTALLED_APPS = (
