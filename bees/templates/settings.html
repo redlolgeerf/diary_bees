@@ -11,22 +11,25 @@
         </div>
         {% endif %}
 
-        {% for field in form.visible_fields %}
-        <div class="form-group {% if field.errors %}has-error{% endif %}">
-            {% for error in field.errors %}
-            <span class="help-block">{{ error }}</span>
-            {% endfor %}
+        <div class="text-black">
+            {% for field in form.visible_fields %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                    {% endfor %}
 
-            {{ field }}
+                    {{ field }}
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        <button class="btn btn-lg btn-primary" type="submit">Сохранить</button>
+        <button class="btn btn-lg btn-default" type="submit">Сохранить</button>
 
     </form>
 
     {% if not new_user and not confirmed %}
     <div>
-        Теперь, чтобы доказать, что это действительно Ваш профиль на diary.ru, 
+        </br>
+        Теперь, чтобы доказать, что это действительно Ваш профиль на diary.ru, </br>
         добавьте этот <a href="http://www.diary.ru/member/?3286587">дневник</a> в избранное.
     </div>
     {% endif %}
