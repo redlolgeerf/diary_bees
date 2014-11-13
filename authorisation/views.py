@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import FormView
 from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse_lazy
 from authorisation.forms import LoginForm, RegisterForm
 
 class RegistrationView(FormView):
     template_name = 'registration.html'
     form_class = RegisterForm
-    success_url = '/thanks/'
+    success_url = '/hive/'
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -21,7 +22,7 @@ class RegistrationView(FormView):
 class LoginView(FormView):
     template_name = 'login.html'
     form_class = LoginForm
-    success_url = '/thanks/'
+    success_url = '/hive/'
 
     def form_valid(self, form):
         user = form.save(commit=False)
