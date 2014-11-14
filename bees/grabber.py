@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 
+
 class BeeParser(object):
     '''
     Receive profile page and make list of bees:
@@ -39,6 +40,7 @@ class BeeParser(object):
                 return True
         except KeyError:
             return False
+
 
 class Grabber(object):
     '''
@@ -81,6 +83,7 @@ class Grabber(object):
                 login_form = form
                 break
         LOGIN_URL = login_form['action']
+
         def sig(tag):
             try:
                 s = tag.get('name', None)

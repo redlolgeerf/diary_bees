@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from bees.models import DUser, History, Bees
 
+
 class TestDUser(TestCase):
     def test_update(self):
         dumb_user = User()
@@ -16,6 +17,7 @@ class TestDUser(TestCase):
         d.update_bees(n)
         self.assertEqual(d.history_set.count(), 1)
 
+
 class TestHistory(TestCase):
     def test_from_diff(self):
         diff = ('141', 'j', 'ccc')
@@ -25,6 +27,7 @@ class TestHistory(TestCase):
         self.assertEqual(h.d_name, 'ccc')
         self.assertEqual(h.action_display, 'joined')
         self.assertEqual(str(h), 'ccc joined None')
+
 
 class TestBees(TestCase):
     def setUp(self):

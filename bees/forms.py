@@ -3,6 +3,7 @@
 from django import forms
 from bees.models import DUser
 
+
 class DUserForm(forms.ModelForm):
 
     class Meta:

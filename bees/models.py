@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+
 class DUser(models.Model):
 
     d_id = models.CharField(verbose_name=_('diary_user_id'), max_length=255,
@@ -88,6 +89,7 @@ class History(models.Model):
     @property
     def action_display(self):
         return dict(self.action_choices)[self.action]
+
 
 class Bees(object):
     '''

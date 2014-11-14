@@ -1,15 +1,16 @@
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import DetailView, View
 from django.template.response import TemplateResponse
 from django.core.urlresolvers import reverse_lazy
 
 from bees.models import DUser, History
 from bees.forms import DUserForm
 
+
 def index(request):
     return render(request, 'index.html')
+
 
 class UserCheckMixin(object):
     user_check_failure_path = reverse_lazy('login')
@@ -24,6 +25,7 @@ class UserCheckMixin(object):
         if not self.check_user(request.user):
             return self.user_check_failed(request, *args, **kwargs)
         return super(UserCheckMixin, self).dispatch(request, *args, **kwargs)
+
 
 class HiveView(UserCheckMixin, DetailView):
 
@@ -46,7 +48,7 @@ class HiveView(UserCheckMixin, DetailView):
         return self.duser
 
     def get_queryset(self):
-        return  History.objects.filter(duser=self.duser)
+        return History.objects.filter(duser=self.duser)
 
     def get_context_data(self, **kwargs):
         context = super(HiveView, self).get_context_data(**kwargs)
@@ -55,6 +57,7 @@ class HiveView(UserCheckMixin, DetailView):
         context['bees'] = self.duser.bees_dict
         context['updated'] = self.duser.updated
         return context
+
 
 class SettingsView(UserCheckMixin, View):
     template_name = 'settings.html'
@@ -100,7 +103,7 @@ class SettingsView(UserCheckMixin, View):
     def get(self, request, *args, **kwargs):
         d_user = self.get_object()
         if d_user:
-            form = self.form_class(initial={'d_id':d_user.d_id})
+            form = self.form_class(initial={'d_id': d_user.d_id})
         else:
             form = self.form_class()
         context = self.get_context_data(form=form)
