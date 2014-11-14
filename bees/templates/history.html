@@ -3,13 +3,23 @@
 {% block main %}
 
 {% if hists %}
-<li>
-  {% for history in hists %}
-  <ul>
-    <a href="http://www.diary.ru/member/?{{ history.d_id }}">{{ history.d_name }}</a> {{ history.action_display }} {{ history.old_name }} on {{ history.when }}
-  </ul>
-  {% endfor %}
-</li>
+<div class="table-responsive">
+    <table class="table">
+        {% for history in hists %}
+        <tr>
+            <th>
+                <a href="http://www.diary.ru/member/?{{ history.d_id }}">{{ history.d_name }}</a>
+            </th>
+            <th>
+                {{ history.action_display }} {{ history.old_name }}
+            </th>
+            <th>
+                on {{ history.when }}
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endif %}
 
 <div>
@@ -28,12 +38,6 @@
         {% else %}
             Пожалуйста, подождите. Идёт подсчёт пчёл.    
         {% endif %}
-    {% endif %}
-</div>
-
-<div>
-    {% if updated %}
-    Последний раз пчёлы были пересчитаны {{ updated }}.
     {% endif %}
 </div>
 {% endblock main %}

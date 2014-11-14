@@ -1,4 +1,8 @@
 <div class="inner">
-  <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    {% if updated %}
+    <p>
+      Последний раз пчёлы были пересчитаны {{ updated }}.
+    </p>
+    {% endif %}
 </div>
 
