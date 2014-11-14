@@ -3,6 +3,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 from authorisation.forms import LoginForm, RegisterForm
+from django.contrib.auth.decorators import login_required
 
 class RegistrationView(FormView):
     template_name = 'registration.html'
@@ -34,6 +35,7 @@ class LoginView(FormView):
             form.add_error('__all__', "User not found.")
             return super(LoginView, self).form_invalid(form)
 
+@login_required
 def user_logout(request):
     logout(request)
     return redirect('index')

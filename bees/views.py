@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import FormView, UpdateView
 from django.views.generic import ListView, DetailView, View
 from django.template.response import TemplateResponse
+from django.core.urlresolvers import reverse_lazy
 
 from bees.models import DUser, History
 from bees.forms import DUserForm
@@ -10,7 +11,21 @@ from bees.forms import DUserForm
 def index(request):
     return render(request, 'index.html')
 
-class HiveView(DetailView):
+class UserCheckMixin(object):
+    user_check_failure_path = reverse_lazy('login')
+
+    def check_user(self, user):
+        return user.is_authenticated()
+
+    def user_check_failed(self, request, *args, **kwargs):
+        return redirect(self.user_check_failure_path)
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.check_user(request.user):
+            return self.user_check_failed(request, *args, **kwargs)
+        return super(UserCheckMixin, self).dispatch(request, *args, **kwargs)
+
+class HiveView(UserCheckMixin, DetailView):
 
     template_name = 'history.html'
     model = DUser
@@ -41,7 +56,7 @@ class HiveView(DetailView):
         context['updated'] = self.duser.updated
         return context
 
-class SettingsView(View):
+class SettingsView(UserCheckMixin, View):
     template_name = 'settings.html'
     form_class = DUserForm
 
