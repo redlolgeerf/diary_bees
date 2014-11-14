@@ -8,7 +8,7 @@
         {% for history in hists %}
         <tr>
             <th>
-                <a href="http://www.diary.ru/member/?{{ history.d_id }}">{{ history.d_name }}</a>
+                <a class="underlined" href="http://www.diary.ru/member/?{{ history.d_id }}">{{ history.d_name }}</a>
             </th>
             <th>
                 {{ history.action_display }} {{ history.old_name }}
@@ -29,7 +29,7 @@
         </div>
         <div>
             {% for k, v in bees.items %}
-            <a href="http://www.diary.ru/member/?{{ k }}">{{ v }}</a> 
+            <a class="underlined" href="http://www.diary.ru/member/?{{ k }}">{{ v }}</a> 
             {% endfor %}
         </div>
     {% else %}
