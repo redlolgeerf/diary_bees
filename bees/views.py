@@ -57,7 +57,6 @@ class HiveView(UserCheckMixin, DetailView):
         context['duser'] = self.duser
         context['hists'] = self.get_queryset()
         context['bees'] = self.duser.bees_dict
-        context['updated'] = self.duser.updated
         return context
 
 

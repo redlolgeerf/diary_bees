@@ -48,6 +48,7 @@ class Grabber(object):
     Usage:
         g = Grabber()
         print(g.get_bees(1692226))
+        [(12345, 'peter'), ]
     '''
 
     DIARY_URL = settings.DIARY_URL
