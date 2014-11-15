@@ -135,3 +135,17 @@ class Bees(object):
             if k not in self._bees_dict:
                 diff.append((k, 'j', other._bees_dict[k]))
         return diff
+
+
+class AuthorisationRequest(models.Model):
+    duser = models.CharField(verbose_name=_('diary_user_id'), max_length=255,
+                                unique=True, default="")
+    created = models.DateTimeField(verbose_name=_('created'), auto_now_add=True,
+                                editable=False)
+
+    def __str__(self):
+        return '{} {}'.format(self.duser, self.created)
+
+    class Meta:
+        verbose_name = _('authorisation request')
+        verbose_name_plural = _('authorisation requests')

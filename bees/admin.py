@@ -1,5 +1,5 @@
 from django.contrib import admin
-from bees.models import DUser, History
+from bees.models import DUser, History, AuthorisationRequest
 
 
 class HistoryInline(admin.TabularInline):
@@ -12,3 +12,4 @@ class DUserAdmin(admin.ModelAdmin):
 
 admin.site.register(DUser, DUserAdmin)
 admin.site.register(History)
+admin.site.register(AuthorisationRequest)

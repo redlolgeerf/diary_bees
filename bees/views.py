@@ -3,8 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, View
 from django.template.response import TemplateResponse
 from django.core.urlresolvers import reverse_lazy
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
-from bees.models import DUser, History
+from bees.models import DUser, History, AuthorisationRequest
 from bees.forms import DUserForm
 
 
@@ -93,8 +95,9 @@ class SettingsView(UserCheckMixin, View):
         d_user = self.get_object()
         new_d_user = form.save(commit=False)
         new_d_user.user = self.request.user
-        if d_user:
+        if d_user and d_user.d_id != new_d_user.d_id:
             d_user.d_id = new_d_user.d_id
+            d_user.confirmed = False
         else:
             d_user = new_d_user
         d_user.save()
@@ -115,3 +118,14 @@ class SettingsView(UserCheckMixin, View):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+@login_required
+def authorize(request, *args, **kwargs):
+    magick_url = settings.MY_DIARY
+    duser = DUser.objects.filter(user=request.user.id)
+    if duser:
+        duser = duser[0]
+        if not duser.confirmed:
+            a = AuthorisationRequest.objects.get_or_create(duser=duser.d_id)
+    return redirect(magick_url)
