@@ -4,11 +4,13 @@
     {% if user.is_authenticated %}
     <p>Добро пожаловать, {{ user.email }}</p>
     <ul class="nav masthead-nav">
-      <li class="active">
-        <a href='{% url 'hive-detail' %}'> Ваш улей</a>
+      {% url 'hive-detail' d_id as link %}
+      <li {% if link == request.path %} class="active" {% endif %}>
+        <a href='{{ link }}'> Ваш улей</a>
       </li>
-      <li>
-        <a href='{% url 'beekeeper-settings' %}'> Настройки</a>
+      {% url 'beekeeper-settings' as link %}
+      <li {% if link == request.path %} class="active" {% endif %}>
+        <a href="{{ link }}"> Настройки</a>
       <li>
       </li>
         <a href='{% url 'logout' %}' class="btn btn-default"> Выйти</a>
@@ -16,7 +18,7 @@
     </ul>
     {% else %}
     <ul class="nav masthead-nav">
-      <li class="active">
+      <li>
         <a href='{% url 'registration' %}'>Зарегистрироваться</a>
       </li>
       <li>

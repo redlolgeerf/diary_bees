@@ -60,6 +60,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request",
     "bees.context_processors.when_updated",
 )
 ROOT_URLCONF = 'diary_bees.urls'
